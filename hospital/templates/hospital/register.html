@@ -1,0 +1,17 @@
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<h1>
+    Register page
+</h1>
+
+<form class="border p-5" method="POST" enctype="multipart/form-data">
+    {% csrf_token%}
+    <fieldset class="form-group">
+        {{form}}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-info text-white" type="submit">Submit</button>
+    </div>
+</form>
+{% endblock %}

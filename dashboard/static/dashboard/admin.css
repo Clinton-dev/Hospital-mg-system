@@ -11923,6 +11923,7 @@ a:focus {
 .sidebar-dark .nav-item .nav-link:focus,
 .sidebar-dark .nav-item .nav-link:hover {
     color: #224abe;
+    background-color: rgba(213, 230, 251, 255);
 }
 
 .sidebar-dark .nav-item .nav-link:active i,

@@ -2,7 +2,11 @@ from django.urls import path
 from .views import (
     DepartmentCreateView,
     DepartmentAdminListView,
-    DoctorsListView
+    DoctorsListView,
+    FilesListView,
+    FoldersListView,
+    PatientsListView,
+    ReceptionistsListView
 )
 from . import views
 

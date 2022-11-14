@@ -4,12 +4,12 @@
 
 {% block content %}
 <h1 class="mt-5 text-center">
-    Hospital Filing System
+    HOSPITAL SYSTEM CONFIGURATION
 </h1>
 
 <form class="border p-5 bg-white" method="POST" enctype="multipart/form-data">
     {% csrf_token%}
-    <h2 class="mb-4">
+    <h2 class="mb-4 text-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-hospital"
             viewBox="0 0 16 16">
             <path
@@ -17,8 +17,9 @@
             <path
                 d="M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1V1Zm2 14h2v-3H7v3Zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm0-14H6v1h4V1Zm2 7v7h3V8h-3Zm-8 7V8H1v7h3Z" />
         </svg>
-        Register your hospital
+        HOSPITAL INFORMATION
     </h2>
+    <p class="text-center text-secondary">Enter your hospital information</p>
     <fieldset class="form-group">
         {{form|crispy}}
     </fieldset>

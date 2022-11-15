@@ -44,6 +44,26 @@ class DepartmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
 
+class DepartmentsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Department
+    fields = ['name', 'description']
+    success_url = reverse_lazy('departments')
+    success_message = 'Department updated successfully!'
+
+    def form_valid(self, form):
+        form.instance.hospital = self.request.user.hospital
+        return super().form_valid(form)
+
+
+class DepartmentsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Department
+    success_url = reverse_lazy('departments')
+    success_message = 'Department deleted successfully!'
+
+
+# Department Admin section
+
+
 class DepartmentAdminListView(ListView):
     model = Department
     template_name = 'dashboard/department-admins.html'

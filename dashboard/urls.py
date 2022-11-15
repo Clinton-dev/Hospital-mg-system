@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import (
     DepartmentCreateView,
+    DepartmentsDeleteView,
+    DepartmentsUpdateView,
     DepartmentAdminListView,
     DoctorsListView,
     FilesListView,
@@ -19,6 +21,10 @@ urlpatterns = [
     path('departments/', views.departments, name='departments'),
     path('departments/create', DepartmentCreateView.as_view(),
          name='create-department'),
+    path('departments/<int:pk>/update', DepartmentsUpdateView.as_view(),
+         name='deparment-update'),
+    path('departments/<int:pk>/delete', DepartmentsDeleteView.as_view(),
+         name='department-delete'),
     path('departmentadmins/', DepartmentAdminListView.as_view(),
          name='department-admins'),
     path('doctors/', DoctorsListView.as_view(),

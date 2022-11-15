@@ -29,3 +29,12 @@ class SubDepartment(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name} subdepartment'
+
+
+class Folder(models.Model):
+    name = models.CharField(max_length=150)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    admin = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        return f'{self.name} Folder'

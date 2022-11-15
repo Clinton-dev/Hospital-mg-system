@@ -5,7 +5,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Folders</h1>
-    <a href="{% url 'create-department'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
+    <a href="{% url 'folders-create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
             class="bi bi-plus-circle-fill"></i> Add a Folder</a>
 </div>
 
@@ -32,11 +32,20 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% for department in departments %}
+                    {% for folder in folders %}
                     <tr>
-                        <td>{{department.name}}</td>
-                        <td>{{department.description}}</td>
-                        <td><i class="bi bi-pencil"></i> &nbsp;&nbsp;<i class="bi bi-trash text-danger"></i> </td>
+                        <td>{{folder.name}}</td>
+                        <td>{{folder.department.name}}</td>
+                        <td>
+                            <a href="{% url 'folder-update' folder.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'folder-delete' folder.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

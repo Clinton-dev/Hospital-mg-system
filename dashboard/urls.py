@@ -5,8 +5,11 @@ from .views import (
     DoctorsListView,
     FilesListView,
     FoldersListView,
+    FoldersDeleteView,
+    FoldersUpdateView,
     PatientsListView,
-    ReceptionistsListView
+    ReceptionistsListView,
+    FoldersCreateView
 )
 from . import views
 
@@ -24,6 +27,12 @@ urlpatterns = [
          name='receptionists'),
     path('folders/', FoldersListView.as_view(),
          name='folders'),
+    path('folders/create/', FoldersCreateView.as_view(),
+         name='folders-create'),
+    path('folders/<int:pk>/update', FoldersUpdateView.as_view(),
+         name='folder-update'),
+    path('folders/<int:pk>/delete', FoldersDeleteView.as_view(),
+         name='folder-delete'),
     path('files/', FilesListView.as_view(),
          name='files'),
     path('patients/', PatientsListView.as_view(),

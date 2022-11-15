@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'hospital.apps.HospitalConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,5 +134,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 ACCOUNT_ACTIVATION_DAYS = 1
 
-REGISTER_REDIRECT_URL = 'home'
-LOGIN_REDIRECT_URL = 'home'
+REGISTER_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = '/'

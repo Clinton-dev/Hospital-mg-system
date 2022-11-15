@@ -12,6 +12,7 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('hospital-dash/', views.hospital, name='hospital-dash'),
     path('departments/', views.departments, name='departments'),
     path('departments/create', DepartmentCreateView.as_view(),
          name='create-department'),

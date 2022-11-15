@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import HospitalRegistration
+from django.contrib import messages
 
 
 def registerHospital(request):
@@ -8,6 +9,7 @@ def registerHospital(request):
         if form.is_valid():
             form.save()
             print('Hospital saved')
+            messages.success(request, 'Hospital added successfully!')
             return redirect('/')
     else:
         form = HospitalRegistration()

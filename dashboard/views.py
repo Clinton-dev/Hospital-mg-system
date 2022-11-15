@@ -17,6 +17,10 @@ def departments(request):
     return render(request, 'dashboard/departments.html', context)
 
 
+def hospital(request):
+    return render(request, 'dashboard/hospital.html')
+
+
 class DepartmentCreateView(CreateView):
     model = Department
     fields = ['name', 'description']

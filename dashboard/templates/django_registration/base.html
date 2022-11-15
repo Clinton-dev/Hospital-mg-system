@@ -27,7 +27,15 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+    {% if messages %}
+    <div class="row align-items-center justify-content-center mt-5">
+        {% for message in messages%}
+        <div class="alert alert-{{ message.tags }} mb-3 w-50">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="container">
         {% block content%} {% endblock content%}
     </div>

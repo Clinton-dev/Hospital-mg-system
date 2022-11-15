@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Hospital(models.Model):
@@ -7,6 +8,7 @@ class Hospital(models.Model):
     email = models.EmailField(null=False, max_length=200)
     date_established = models.DateField()
     phone = models.CharField(null=False, max_length=150)
+    admin = models.OneToOneField(User, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f'{self.name} Hospital'

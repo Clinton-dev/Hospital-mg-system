@@ -2,7 +2,6 @@ from django import forms
 from .models import Hospital
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Submit
-from django.contrib.admin.widgets import AdminDateWidget
 
 
 class DateInput(forms.DateInput):
@@ -12,7 +11,8 @@ class DateInput(forms.DateInput):
 class HospitalRegistration(forms.ModelForm):
     class Meta:
         model = Hospital
-        fields = ['name', 'email', 'phone', 'logo', 'date_established']
+        fields = ['name', 'email', 'phone',
+                  'logo', 'date_established']
         widgets = {
             "date_established": DateInput(),
         }

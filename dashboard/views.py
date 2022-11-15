@@ -3,9 +3,11 @@ from django.views.generic import (
     CreateView,
     ListView
 )
+from django.contrib.auth.decorators import login_required
 from hospital.models import Department
 
 
+@login_required(login_url='users/login_user')
 def home(request):
     return render(request, 'dashboard/home.html')
 

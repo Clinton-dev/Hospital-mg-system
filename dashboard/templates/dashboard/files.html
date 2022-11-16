@@ -53,7 +53,10 @@
                             &nbsp;&nbsp;
                             <a href="{% url 'file-delete' file.id %}"
                                 class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
-
+                            <a href="{{file.file.url}}" class="btn btn-outline-secondary btn-sm mx-2 text-center"
+                                download>
+                                <i class="bi bi-download"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}

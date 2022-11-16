@@ -24,6 +24,14 @@ class Department(models.Model):
         return f'{self.name} Department'
 
 
+class DepartmentAdmin(models.Model):
+    depadmin = models.ForeignKey(User, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.depadmin.username} {self.department.name} Department admin'
+
+
 class SubDepartment(models.Model):
     name = models.CharField(max_length=150)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
@@ -44,7 +52,7 @@ class Folder(models.Model):
 class File(models.Model):
     #fields = ['name','file','folder',]
     name = models.CharField(max_length=150)
-    file = models.FileField(upload_to='file-uploads/%Y/%m/$D/', max_length=254)
+    file = models.FileField(upload_to='file-uploads/%Y/%m/%D/', max_length=254)
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
     admin = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     date_posted = models.DateTimeField(null=False, default=timezone.now)

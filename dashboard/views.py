@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView
 )
 from django.contrib.auth.decorators import login_required
-from hospital.models import Department, File, Folder
+from hospital.models import Department, File, Folder, DepartmentAdmin
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
@@ -65,8 +65,30 @@ class DepartmentsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView)
 
 
 class DepartmentAdminListView(ListView):
-    model = Department
+    model = DepartmentAdmin
     template_name = 'dashboard/department-admins.html'
+    context_object_name = 'departmentadmins'
+    ordering = ['-id']
+
+
+class DepartmentAdminsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = DepartmentAdmin
+    fields = "__all__"
+    success_url = reverse_lazy('department-admins')
+    success_message = 'Department created successfully!'
+
+
+class DepartmentAdminsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = DepartmentAdmin
+    fields = "__all__"
+    success_url = reverse_lazy('department-admins')
+    success_message = 'Department updated successfully!'
+
+
+class DepartmentAdminsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = DepartmentAdmin
+    success_url = reverse_lazy('department-admins')
+    success_message = 'Department admin deleted successfully!'
 
 # Doctors section
 
@@ -74,6 +96,7 @@ class DepartmentAdminListView(ListView):
 class DoctorsListView(ListView):
     model = Department
     template_name = 'dashboard/doctors.html'
+    ordering = ['-id']
 
 
 class ReceptionistsListView(ListView):
@@ -92,7 +115,7 @@ class FoldersListView(ListView):
     model = Folder
     template_name = 'dashboard/folder.html'
     context_object_name = 'folders'
-    # ordering = ['created_at']
+    ordering = ['-id']
 
 
 class FoldersCreateView(SuccessMessageMixin, CreateView):
@@ -129,6 +152,7 @@ class FilesListView(ListView):
     model = File
     template_name = 'dashboard/files.html'
     context_object_name = 'files'
+    ordering = ['-id']
 
 
 class FilesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):

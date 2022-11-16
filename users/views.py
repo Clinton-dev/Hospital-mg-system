@@ -6,7 +6,6 @@ from .forms import UserRegistrationForm, UserUpdateForm
 
 
 def login_user(request):
-    print(request.POST)
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -40,7 +39,7 @@ def registration(request):
         form = UserRegistrationForm()
         context['form'] = form
 
-    return render(request, 'users/register.html', context)
+    return render(request, 'registration/register.html', context)
 
 
 def logout_view(request):

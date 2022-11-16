@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -38,3 +39,15 @@ class Folder(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name} Folder'
+
+
+class File(models.Model):
+    #fields = ['name','file','folder',]
+    name = models.CharField(max_length=150)
+    file = models.FileField(upload_to='file-uploads/%Y/%m/$D/', max_length=254)
+    folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
+    admin = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    date_posted = models.DateTimeField(null=False, default=timezone.now)
+
+    def __str__(self) -> str:
+        return f'{self.name} File'

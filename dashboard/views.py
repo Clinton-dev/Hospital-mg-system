@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView
 )
 from django.contrib.auth.decorators import login_required
-from hospital.models import Department, Folder
+from hospital.models import Department, File, Folder
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
@@ -122,7 +122,38 @@ class FoldersDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('folders')
     success_message = 'folder deleted successfully!'
 
+# Files sections
+
 
 class FilesListView(ListView):
-    model = Department
+    model = File
     template_name = 'dashboard/files.html'
+    context_object_name = 'files'
+
+
+class FilesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = File
+    fields = ['name', 'file', 'folder']
+    success_url = reverse_lazy('files')
+    success_message = 'file created successfully!'
+
+    def form_valid(self, form):
+        form.instance.admin = self.request.user
+        return super().form_valid(form)
+
+
+class FilesUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = File
+    fields = ['name', 'file', 'folder']
+    success_url = reverse_lazy('files')
+    success_message = 'file updated successfully!'
+
+    def form_valid(self, form):
+        form.instance.admin = self.request.user
+        return super().form_valid(form)
+
+
+class FilesDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = File
+    success_url = reverse_lazy('files')
+    success_message = 'File deleted successfully!'

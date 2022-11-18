@@ -26,6 +26,7 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('search/', views.search_patients, name='search'),
     path('hospital-dash/', views.hospital, name='hospital-dash'),
     path('departments/', views.departments, name='departments'),
     path('departments/create', DepartmentCreateView.as_view(),

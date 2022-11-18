@@ -10,14 +10,27 @@ from hospital.models import Department, File, Folder, DepartmentAdmin, Patient
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 
-@login_required(login_url='users/login_user')
+def search_patients(request):
+    query = request.GET.get('query')
+
+    if query != None:
+        lookup = (Q(first_name__icontains=query)
+                  | Q(last_name__icontains=query)
+                  | Q(national_id__icontains=query))
+        patients = Patient.objects.filter(lookup)
+        return render(request, 'dashboard/search.html', {'patients': patients})
+    return render(request, 'dashboard/search.html', {})
+
+
+@ login_required(login_url='users/login_user')
 def home(request):
     return render(request, 'dashboard/home.html')
 
 
-@login_required(login_url='users/login_user')
+@ login_required(login_url='users/login_user')
 def departments(request):
     print(request.user.hospital)
     context = {
@@ -26,7 +39,7 @@ def departments(request):
     return render(request, 'dashboard/departments.html', context)
 
 
-@login_required(login_url='users/login_user')
+@ login_required(login_url='users/login_user')
 def hospital(request):
     return render(request, 'dashboard/hospital.html')
 

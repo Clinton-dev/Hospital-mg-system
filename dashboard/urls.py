@@ -15,7 +15,10 @@ from .views import (
     FoldersListView,
     FoldersDeleteView,
     FoldersUpdateView,
+    PatientsCreateView,
+    PatientsDeleteView,
     PatientsListView,
+    PatientsUpdateView,
     ReceptionistsListView,
     FoldersCreateView
 )
@@ -61,4 +64,10 @@ urlpatterns = [
          name='file-delete'),
     path('patients/', PatientsListView.as_view(),
          name='patients'),
+    path('patients/create/', PatientsCreateView.as_view(),
+         name='patients-create'),
+    path('patients/<int:pk>/update', PatientsUpdateView.as_view(),
+         name='patient-update'),
+    path('pateints/<int:pk>/delete', PatientsDeleteView.as_view(),
+         name='patient-delete'),
 ]

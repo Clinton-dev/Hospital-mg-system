@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView
 )
 from django.contrib.auth.decorators import login_required
-from hospital.models import Department, File, Folder, DepartmentAdmin
+from hospital.models import Department, File, Folder, DepartmentAdmin, Patient
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
@@ -103,10 +103,33 @@ class ReceptionistsListView(ListView):
     model = Department
     template_name = 'dashboard/receptionists.html'
 
+# Patients section
+
 
 class PatientsListView(ListView):
-    model = Department
+    model = Patient
+    context_object_name = 'patients'
     template_name = 'dashboard/patients.html'
+
+
+class PatientsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Patient
+    fields = "__all__"
+    success_url = reverse_lazy('patients')
+    success_message = 'Patient created successfully!'
+
+
+class PatientsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Patient
+    fields = "__all__"
+    success_url = reverse_lazy('patients')
+    success_message = 'Patient updated successfully!'
+
+
+class PatientsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Patient
+    success_url = reverse_lazy('patients')
+    success_message = 'Patient deleted successfully!'
 
 # Folders section
 

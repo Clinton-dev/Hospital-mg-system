@@ -5,7 +5,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Patients</h1>
-    <a href="{% url 'create-department'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
+    <a href="{% url 'patients-create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
             class="bi bi-plus-circle-fill"></i> Add a Patient</a>
 </div>
 
@@ -18,25 +18,38 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Action</th>
-                    </tr>
+                    <th>Name</th>
+                    <th>national Id</th>
+                    <th>Date created</th>
+                    <th>Hospital</th>
+                    <th>Action</th>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Department</th>
+                        <th>national Id</th>
+                        <th>Date created</th>
+                        <th>Hospital</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% for department in departments %}
+                    {% for patient in patients %}
                     <tr>
-                        <td>{{department.name}}</td>
-                        <td>{{department.description}}</td>
-                        <td><i class="bi bi-pencil"></i> &nbsp;&nbsp;<i class="bi bi-trash text-danger"></i> </td>
+                        <td>{{patient.first_name}} {{patient.last_name}}</td>
+                        <td>{{patient.national_id}}</td>
+                        <td>{{patient.date_created}}</td>
+                        <td>{{patient.hospital}}</td>
+                        <td>
+                            <a href="{% url 'patient-update' patient.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'patient-delete' patient.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

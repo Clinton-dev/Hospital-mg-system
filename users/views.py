@@ -47,3 +47,7 @@ def logout_view(request):
     messages.success(
         request, f'You were successfully, logged out!')
     return redirect('login')
+
+
+def change_password(request):
+    return render(request, 'registration/forgot-password.html')

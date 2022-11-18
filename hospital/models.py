@@ -40,6 +40,17 @@ class SubDepartment(models.Model):
         return f'{self.name} subdepartment'
 
 
+class Patient(models.Model):
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    national_id = models.CharField(max_length=25)
+    date_created = models.DateTimeField(null=False, default=timezone.now)
+    hospital = models.ForeignKey(Hospital, on_delete=models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name} patient'
+
+
 class Folder(models.Model):
     name = models.CharField(max_length=150)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)

@@ -1,0 +1,24 @@
+{% extends 'dashboard/base.html'%}
+{% block content %}
+<div>
+    <div class="profile">
+        <div class="profile__avatar">
+            <div class="avatar avatar--large active">
+                <img class="image-fluid avatar-img" src="{{poster.profile.profile_picture.url}}"
+                    alt="{{poster.username}} profile pic" />
+            </div>
+        </div>
+        <div class="profile__info">
+            <h3>{{request.user.email}}</h3>
+            <p>@{{request.user}}</p>
+        </div>
+        <!-- <div class="profile__about">
+            <h3>About</h3>
+            <p>
+                {{poster.profile.bio}}
+            </p>
+        </div> -->
+    </div>
+</div>
+
+{% endblock content %}

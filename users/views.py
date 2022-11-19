@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .decorators import unauthenticated_user
 from .forms import UserRegistrationForm, UserUpdateForm
 
 
+@unauthenticated_user
 def login_user(request):
+
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -20,6 +23,7 @@ def login_user(request):
         return render(request, 'registration/login.html')
 
 
+@unauthenticated_user
 def registration(request):
     context = {
         'title': 'signup',
@@ -51,3 +55,7 @@ def logout_view(request):
 
 def change_password(request):
     return render(request, 'registration/forgot-password.html')
+
+
+def user_profile(request):
+    return render(request, 'registration/profile.html')

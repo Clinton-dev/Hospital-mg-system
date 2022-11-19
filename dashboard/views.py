@@ -11,23 +11,25 @@ from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user acces
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
 from django.db.models import Q
+from .utils import *
 
 
 def search_patients(request):
-    query = request.GET.get('query')
+    if request.method == "GET":
+        query = request.GET.get('query')
 
-    if query != None:
-        lookup = (Q(first_name__icontains=query)
-                  | Q(last_name__icontains=query)
-                  | Q(national_id__icontains=query))
-        patients = Patient.objects.filter(lookup)
-        return render(request, 'dashboard/search.html', {'patients': patients})
+        if query != None:
+            lookup = (Q(first_name__icontains=query)
+                      | Q(last_name__icontains=query)
+                      | Q(national_id__icontains=query))
+            patients = Patient.objects.filter(lookup)
+            return render(request, 'dashboard/search.html', {'patients': patients})
     return render(request, 'dashboard/search.html', {})
 
 
 @ login_required(login_url='users/login_user')
 def home(request):
-    return render(request, 'dashboard/home.html')
+    return render(request, 'dashboard/home.html', {'is_admin': is_hospital_admin(request.user)})
 
 
 @ login_required(login_url='users/login_user')

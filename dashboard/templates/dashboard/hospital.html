@@ -8,10 +8,12 @@
     <h1 class="h3 mb-0 text-gray-800">{{request.user.hospital}}</h1>
     {% else %}
     <h1 class="h3 mb-0 text-gray-800">Hospital</h1>
-    <a href="{% url 'register-hospital'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
-            class="bi bi-plus-circle-fill"></i> Add a Hospital</a>
     {% endif%}
 
+    {% if is_admin or is_depadmin %}
+    <a href="{% url 'register-hospital'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
+            class="bi bi-plus-circle-fill"></i> Add a Hospital</a>
+    {% endif %}
 </div>
 
 <div class="row">

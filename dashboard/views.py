@@ -29,7 +29,12 @@ def search_patients(request):
 
 @ login_required(login_url='users/login_user')
 def home(request):
-    return render(request, 'dashboard/home.html', {'is_admin': is_hospital_admin(request.user)})
+    context = {
+        'is_admin': is_hospital_admin(request.user),
+        'is_depadmin': is_department_admin(request.user),
+        'is_staff': is_hospital_staff(request.user),
+    }
+    return render(request, 'dashboard/home.html', context)
 
 
 @ login_required(login_url='users/login_user')
@@ -85,6 +90,13 @@ class DepartmentAdminListView(ListView):
     context_object_name = 'departmentadmins'
     ordering = ['-id']
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(DepartmentAdminListView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        context['is_depadmin'] = is_hospital_admin(self.request.user)
+        return context
+
 
 class DepartmentAdminsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = DepartmentAdmin
@@ -113,10 +125,24 @@ class DoctorsListView(ListView):
     template_name = 'dashboard/doctors.html'
     ordering = ['-id']
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(DoctorsListView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        context['is_depadmin'] = is_hospital_admin(self.request.user)
+        return context
+
 
 class ReceptionistsListView(ListView):
     model = Department
     template_name = 'dashboard/receptionists.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ReceptionistsListView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        context['is_depadmin'] = is_hospital_admin(self.request.user)
+        return context
 
 # Patients section
 
@@ -125,6 +151,13 @@ class PatientsListView(ListView):
     model = Patient
     context_object_name = 'patients'
     template_name = 'dashboard/patients.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PatientsListView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        context['is_depadmin'] = is_hospital_admin(self.request.user)
+        return context
 
 
 class PatientsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -154,6 +187,13 @@ class FoldersListView(ListView):
     template_name = 'dashboard/folder.html'
     context_object_name = 'folders'
     ordering = ['-id']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FoldersListView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        context['is_depadmin'] = is_hospital_admin(self.request.user)
+        return context
 
 
 class FoldersCreateView(SuccessMessageMixin, CreateView):
@@ -191,6 +231,13 @@ class FilesListView(ListView):
     template_name = 'dashboard/files.html'
     context_object_name = 'files'
     ordering = ['-id']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FilesListView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        context['is_depadmin'] = is_hospital_admin(self.request.user)
+        return context
 
 
 class FilesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):

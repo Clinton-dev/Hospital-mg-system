@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user
 from .forms import UserRegistrationForm, UserUpdateForm
 
@@ -34,10 +34,13 @@ def registration(request):
         form = UserRegistrationForm(request.POST)
         context['form'] = form
         if form.is_valid():
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name='admin')
+            user.groups.add(group)
             username = form.cleaned_data.get('username')
+
             messages.success(
-                request, f'Account created successfully, you can now login!')
+                request, f'{username} Account created successfully, you can now login!')
             return redirect('login')
     else:
         form = UserRegistrationForm()

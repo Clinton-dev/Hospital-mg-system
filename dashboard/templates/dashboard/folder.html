@@ -5,8 +5,10 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Folders</h1>
+    {% if is_admin or is_depadmin %}
     <a href="{% url 'folders-create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
             class="bi bi-plus-circle-fill"></i> Add a Folder</a>
+    {% endif %}
 </div>
 
 <!-- DataTales Example -->

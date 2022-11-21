@@ -1,4 +1,5 @@
-from django.shortcuts import render
+import http
+from django.shortcuts import render, redirect
 from django.views.generic import (
     CreateView,
     ListView,
@@ -6,12 +7,15 @@ from django.views.generic import (
     UpdateView
 )
 from django.contrib.auth.decorators import login_required
-from hospital.models import Department, File, Folder, DepartmentAdmin, Patient
+from hospital.models import Department, File, Folder, DepartmentAdmin, Patient, Staff
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
 from django.db.models import Q
 from .utils import *
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth.models import Group
 
 
 def search_patients(request):
@@ -131,6 +135,46 @@ class DoctorsListView(ListView):
         context['is_admin'] = is_hospital_admin(self.request.user)
         context['is_depadmin'] = is_hospital_admin(self.request.user)
         return context
+
+
+class DoctorsCreateView(CreateView):
+    model = User
+    template_name = 'hospital/doctor_form.html'
+    fields = ['username', 'email', 'last_name', 'first_name']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DoctorsCreateView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_depadmin'] = is_department_admin(self.request.user)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        print(request)
+        if form.is_valid():
+            user = form.save()
+            # create random password
+            randpass = User.objects.make_random_password()
+            user.set_password(randpass)
+            user.save()
+            # associate user with staff group
+            group = Group.objects.get(name='staff')
+            user.groups.add(group)
+            username = form.cleaned_data.get('username')
+
+            # link staff model link wth user and hospital
+            staff_prof = Staff.objects.create(
+                user=user, hospital=self.request.user.hospital)
+            staff_prof.save()
+            # send email with login details
+            # redirect to doctors list page
+            messages.success(
+                request, f'User with username: {username} was created with following password: {randpass}')
+            return redirect('doctors')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class ReceptionistsListView(ListView):

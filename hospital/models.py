@@ -32,6 +32,14 @@ class DepartmentAdmin(models.Model):
         return f'{self.depadmin.username} {self.department.name} Department admin'
 
 
+class Staff(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} staff profile'
+
+
 class SubDepartment(models.Model):
     name = models.CharField(max_length=150)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)

@@ -26,5 +26,3 @@ class HospitalRegistration(forms.ModelForm):
             helper.layout.append(field)
 
         return helper
-
-    # for field in self.Meta().fields:

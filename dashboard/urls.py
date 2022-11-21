@@ -20,6 +20,7 @@ from .views import (
     PatientsDeleteView,
     PatientsListView,
     PatientsUpdateView,
+    ReceptionistsCreateView,
     ReceptionistsListView,
     FoldersCreateView
 )
@@ -50,6 +51,8 @@ urlpatterns = [
          name='doctors-create'),
     path('receptionists/', ReceptionistsListView.as_view(),
          name='receptionists'),
+    path('receptionits/create/', ReceptionistsCreateView.as_view(),
+         name='receptionits-create'),
     path('folders/', FoldersListView.as_view(),
          name='folders'),
     path('folders/create/', FoldersCreateView.as_view(),

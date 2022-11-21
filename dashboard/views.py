@@ -176,6 +176,8 @@ class DoctorsCreateView(CreateView):
 
         return render(request, self.template_name, {'form': form})
 
+# Receptionist section
+
 
 class ReceptionistsListView(ListView):
     model = Department
@@ -188,8 +190,43 @@ class ReceptionistsListView(ListView):
         context['is_depadmin'] = is_hospital_admin(self.request.user)
         return context
 
-# Patients section
 
+class ReceptionistsCreateView(CreateView):
+    model = User
+    template_name = 'hospital/receptionist_form.html'
+    fields = ['username', 'email', 'last_name', 'first_name']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ReceptionistsCreateView,
+                        self).get_context_data(*args, **kwargs)
+        context['is_depadmin'] = is_department_admin(self.request.user)
+        context['is_admin'] = is_hospital_admin(self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        print(request)
+        if form.is_valid():
+            user = form.save()
+            randpass = User.objects.make_random_password()
+            user.set_password(randpass)
+            user.save()
+            group = Group.objects.get(name='staff')
+            user.groups.add(group)
+            username = form.cleaned_data.get('username')
+            staff_prof = Staff.objects.create(
+                user=user, hospital=self.request.user.hospital)
+            staff_prof.save()
+            # send email with login details
+            messages.success(
+                request, f'User with username: {username} was created with following password: {randpass}')
+            return redirect('receptionists')
+
+        return render(request, self.template_name, {'form': form})
+
+
+# Patients section
 
 class PatientsListView(ListView):
     model = Patient

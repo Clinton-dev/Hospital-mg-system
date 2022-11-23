@@ -16,6 +16,7 @@ from .utils import *
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail  # send mail
 
 
 def search_patients(request):
@@ -152,6 +153,7 @@ class DoctorsCreateView(CreateView):
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
         print(request)
         if form.is_valid():
             user = form.save()
@@ -169,6 +171,13 @@ class DoctorsCreateView(CreateView):
                 user=user, hospital=self.request.user.hospital)
             staff_prof.save()
             # send email with login details
+            send_mail(
+                subject='User Login credentials',
+                message=f'Use the following credentials to login username: {username}  password: {randpass}.',
+                recipient_list=[user.email],
+                from_email=None,
+                fail_silently=False,
+            )
             # redirect to doctors list page
             messages.success(
                 request, f'User with username: {username} was created with following password: {randpass}')
@@ -219,6 +228,13 @@ class ReceptionistsCreateView(CreateView):
                 user=user, hospital=self.request.user.hospital)
             staff_prof.save()
             # send email with login details
+            send_mail(
+                subject='User Login credentials',
+                message=f'Use the following credentials to login username: {username}  password: {randpass}.',
+                recipient_list=[user.email],
+                from_email=None,
+                fail_silently=False,
+            )
             messages.success(
                 request, f'User with username: {username} was created with following password: {randpass}')
             return redirect('receptionists')

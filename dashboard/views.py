@@ -50,8 +50,11 @@ def home(request):
 @ login_required(login_url='users/login_user')
 def departments(request):
     # print(request.user.hospital)
+    query_set = Department.objects.all().filter(
+        hospital__id__exact=request.user.staff.hospital.id)
+    print(query_set)
     context = {
-        "departments": Department.objects.all(),
+        "departments": query_set,
         'is_admin': is_hospital_admin(request.user),
         'is_depadmin': is_department_admin(request.user),
         'is_staff': is_hospital_staff(request.user),

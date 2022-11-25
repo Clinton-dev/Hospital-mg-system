@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<h1>Home page</h1>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -11,37 +10,42 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
+                <thead class="table-head-foot">
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th>Name & Uid</th>
+                        <th>Department/ Patient</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: #3380FF; color: #000;">
                     <tr>
-                        <th>Name</th>
+                        <th>Name & Uid</th>
                         <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    <!-- {% for department in departments %}
+                    {% for user in users %}
                     <tr>
-                        <td>{{department.name}}</td>
-                        <td>{{department.description}}</td>
+                        <td style="display:flex; column-gap: 20px; align-items: center;"> <img
+                                class="image-fluid avatar-img" src="{{user.staff.image.url}}"
+                                alt="{{poster.username}} profile pic" />
+                            {{user.first_name}} {{user.last_name}} <br />
+                            {{user.id}}
+                        </td>
+                        <td>{{user.staff.role}}</td>
                         <td>
-                            <a href="{% url 'deparment-update' department.id %}"
+                            <!-- <a href=" url 'deparment-update' department.id %}"
                                 class="btn btn-outline-primary btn-sm mx-2 text-center">
                                 <i class="bi bi-pencil"></i>
                             </a>
                             &nbsp;&nbsp;
-                            <a href="{% url 'department-delete' department.id %}"
-                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+                            <a href=" url 'department-delete' department.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a> -->
 
                         </td>
                     </tr>
-                    {% endfor %} -->
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

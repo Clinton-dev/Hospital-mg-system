@@ -19,23 +19,33 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th>Department name</th>
+                        <th>Department head</th>
+                        <th>Date created</th>
+                        <th>Created by</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
+                        <th>Department name</th>
+                        <th>Department head</th>
+                        <th>Date created</th>
+                        <th>Created by</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     {% for department in departments %}
                     <tr>
-                        <td>{{department.name}}</td>
+                        <td>
+                            <a href="{% url 'department-detail' department.id%}">
+                                {{department.name}}
+                            </a>
+                        </td>
                         <td>{{department.description}}</td>
+                        <td>{{department.date_created}}</td>
+                        <td>{{department.created_by}}</td>
                         <td>
                             <a href="{% url 'deparment-update' department.id %}"
                                 class="btn btn-outline-primary btn-sm mx-2 text-center">

@@ -32,10 +32,10 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% for department in departments %}
+                    {% for receptionist in receptionists %}
                     <tr>
-                        <td>{{department.name}}</td>
-                        <td>{{department.description}}</td>
+                        <td>{{receptionist.username}}</td>
+                        <td>{{receptionist.description}}</td>
                         <td><i class="bi bi-pencil"></i> &nbsp;&nbsp;<i class="bi bi-trash text-danger"></i> </td>
                     </tr>
                     {% endfor %}

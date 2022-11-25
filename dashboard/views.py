@@ -2,6 +2,7 @@ import http
 from django.shortcuts import render, redirect
 from django.views.generic import (
     CreateView,
+    DetailView,
     ListView,
     DeleteView,
     UpdateView
@@ -34,10 +35,13 @@ def search_patients(request):
 
 @ login_required(login_url='users/login_user')
 def home(request):
+    users = User.objects.filter(
+        staff__hospital__exact=request.user.staff.hospital.id)
     context = {
         'is_admin': is_hospital_admin(request.user),
         'is_depadmin': is_department_admin(request.user),
         'is_staff': is_hospital_staff(request.user),
+        'users': users
     }
     return render(request, 'dashboard/home.html', context)
 
@@ -53,14 +57,21 @@ def departments(request):
 
 @ login_required(login_url='users/login_user')
 def hospital(request):
-    return render(request, 'dashboard/hospital.html')
+    hospital = request.user.staff.hospital
+    context = {
+        'is_admin': is_hospital_admin(request.user),
+        'is_depadmin': is_department_admin(request.user),
+        'is_staff': is_hospital_staff(request.user),
+        "hospital": hospital
+    }
+    return render(request, 'dashboard/hospital.html', context)
 
 # Department section
 
 
 class DepartmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Department
-    fields = ['name', 'description']
+    fields = ['name']
     success_url = reverse_lazy('departments')
     success_message = 'Department created successfully!'
 
@@ -78,6 +89,10 @@ class DepartmentsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView)
     def form_valid(self, form):
         form.instance.hospital = self.request.user.hospital
         return super().form_valid(form)
+
+
+class DepartmentDetailView(LoginRequiredMixin, DetailView):
+    model = Department
 
 
 class DepartmentsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
@@ -126,8 +141,10 @@ class DepartmentAdminsDeleteView(LoginRequiredMixin, SuccessMessageMixin, Delete
 
 
 class DoctorsListView(ListView):
-    model = Department
+    # query list of all doctors based on users hospital id
+    queryset = User.objects.filter(staff__role__contains="doctor")
     template_name = 'dashboard/doctors.html'
+    context_object_name = 'doctors'
     ordering = ['-id']
 
     def get_context_data(self, *args, **kwargs):
@@ -168,7 +185,7 @@ class DoctorsCreateView(CreateView):
 
             # link staff model link wth user and hospital
             staff_prof = Staff.objects.create(
-                user=user, hospital=self.request.user.hospital)
+                user=user, hospital=self.request.user.hospital, role='doctor')
             staff_prof.save()
             # send email with login details
             send_mail(
@@ -189,7 +206,8 @@ class DoctorsCreateView(CreateView):
 
 
 class ReceptionistsListView(ListView):
-    model = Department
+    queryset = User.objects.filter(staff__role__contains="receptionist")
+    context_object_name = 'receptionists'
     template_name = 'dashboard/receptionists.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -225,7 +243,7 @@ class ReceptionistsCreateView(CreateView):
             user.groups.add(group)
             username = form.cleaned_data.get('username')
             staff_prof = Staff.objects.create(
-                user=user, hospital=self.request.user.hospital)
+                user=user, hospital=self.request.user.hospital, role='receptionist')
             staff_prof.save()
             # send email with login details
             send_mail(

@@ -1,0 +1,15 @@
+{% extends "dashboard/base.html"%}
+
+{% block content%}
+<form method="POST" class="border p-5" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <h1 class="h5 mb-3 text-muted">Delete User</h1>
+        <p>Are you sure you want to delete <span class="fw">{{object.name}}</span> </p>
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-danger text-white" type="submit">Yes, delete department</button>
+        <a class="btn btn-secondary text-white" href="{% url 'home' %}">Cancel</a>
+    </div>
+</form>
+{% endblock content%}

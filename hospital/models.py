@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from PIL import Image
 
 
 class Hospital(models.Model):
@@ -17,8 +18,12 @@ class Hospital(models.Model):
 
 class Department(models.Model):
     name = models.CharField(null=True, max_length=150)
-    description = models.TextField(blank=False)
+    date_created = models.DateTimeField(null=True, default=timezone.now)
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    # department_admin = models.ForeignKey(
+    #     User, on_delete=models.DO_NOTHING, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
         return f'{self.name} Department'
@@ -35,6 +40,8 @@ class DepartmentAdmin(models.Model):
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    role = models.TextField(max_length=70, default=True)
+    image = models.ImageField(default='default.svg', upload_to='profile_pics')
 
     def __str__(self):
         return f'{self.user.username} staff profile'

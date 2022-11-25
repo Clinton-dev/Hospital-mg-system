@@ -214,6 +214,11 @@ table {
     border-collapse: collapse;
 }
 
+.table-head-foot {
+    background-color: #3380FF;
+    color: #000;
+}
+
 caption {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;

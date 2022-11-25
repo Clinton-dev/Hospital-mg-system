@@ -22,14 +22,18 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Department</th>
+                        <th>Department Name</th>
+                        <th>Contact Info</th>
+                        <th>Date Created</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Department</th>
+                        <th>Department Name</th>
+                        <th>Contact Info</th>
+                        <th>Date Created</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -38,6 +42,8 @@
                     <tr>
                         <td>{{departmentadmin.depadmin}}</td>
                         <td>{{departmentadmin.department}}</td>
+                        <td>contact infor</td>
+                        <td>date created</td>
                         <td>
                             <a href="{% url 'departmentadmins-update' departmentadmin.id %}"
                                 class="btn btn-outline-primary btn-sm mx-2 text-center">

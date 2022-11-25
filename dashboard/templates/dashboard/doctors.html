@@ -21,6 +21,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Department</th>
+                        <th>Contact info</th>
+                        <th>Date created</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -28,6 +30,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Department</th>
+                        <th>Contact info</th>
+                        <th>Date created</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -35,8 +39,20 @@
                     {% for doctor in doctors %}
                     <tr>
                         <td>{{doctor.username}}</td>
-                        <td>{{department.description}}</td>
-                        <td><i class="bi bi-pencil"></i> &nbsp;&nbsp;<i class="bi bi-trash text-danger"></i> </td>
+                        <td>{{doctor.staff.department.name}}</td>
+                        <td>{{doctor.email}}</td>
+                        <td>{{doctor.staff.date_created}}</td>
+                        <td>
+                            {% if is_admin or is_depadmin %}
+                            <a href="{% url 'user-update' user.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'user-delete' user.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

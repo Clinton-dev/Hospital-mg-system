@@ -4,6 +4,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .decorators import unauthenticated_user
 from .forms import UserRegistrationForm, UserUpdateForm
+from django.views.generic import (
+    DeleteView,
+    UpdateView
+)
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 @unauthenticated_user
@@ -62,3 +70,16 @@ def change_password(request):
 
 def user_profile(request):
     return render(request, 'registration/profile.html')
+
+
+class UsersUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = User
+    fields = ['username', 'email', 'last_name', 'first_name']
+    success_url = reverse_lazy('home')
+    success_message = 'Patient updated successfully!'
+
+
+class UserDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('home')
+    success_message = 'User deleted successfully!'

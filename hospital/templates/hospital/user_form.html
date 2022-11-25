@@ -1,0 +1,20 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<h1 class="mt-5 text-center">
+    Add a user
+</h1>
+
+<form class="border p-5 bg-white" method="POST">
+    {% csrf_token%}
+    <fieldset class="form-group">
+        {{form|crispy}}
+    </fieldset>
+    <div class="form-group mt-4">
+        <a href="{% url 'home'%}" class="btn btn-danger text-white" type="submit">Cancel</a>
+        <button class="btn btn-info text-white" type="submit">Create user</button>
+    </div>
+</form>
+{% endblock %}

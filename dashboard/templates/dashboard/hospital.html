@@ -4,11 +4,8 @@
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    {% if request.user.hospital %}
-    <h1 class="h3 mb-0 text-gray-800">{{request.user.hospital}}</h1>
-    {% else %}
-    <h1 class="h3 mb-0 text-gray-800">Hospital</h1>
-    {% endif%}
+
+    <h1 class="h3 mb-0 text-gray-800">{{request.user.staff.hospital}}</h1>
 
     {% if is_admin or is_depadmin %}
     <a href="{% url 'register-hospital'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i

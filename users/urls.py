@@ -8,6 +8,10 @@ urlpatterns = [
     path('forgot_password/', views.change_password, name='change-password'),
     path('logout/', views.logout_view, name="logout"),
     path('profile/', views.user_profile, name="profile"),
+    path('user/<int:pk>/update', views.UsersUpdateView.as_view(template_name='hospital/user_form.html'),
+         name='user-update'),
+    path('user/<int:pk>/delete', views.UserDeleteView.as_view(template_name='hospital/user_confirm_delete.html'),
+         name='user-delete'),
     # reset userpassword
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'),
          name='password_reset'),

@@ -42,6 +42,9 @@ class Staff(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     role = models.TextField(max_length=70, default=True)
     image = models.ImageField(default='default.svg', upload_to='profile_pics')
+    department = models.ForeignKey(
+        Department, null=True, on_delete=models.DO_NOTHING)
+    date_created = models.DateTimeField(null=True, default=timezone.now)
 
     def __str__(self):
         return f'{self.user.username} staff profile'

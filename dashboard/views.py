@@ -1,4 +1,3 @@
-import http
 from django.shortcuts import render, redirect
 from django.views.generic import (
     CreateView,
@@ -50,7 +49,10 @@ def home(request):
 def departments(request):
     print(request.user.hospital)
     context = {
-        "departments": Department.objects.all()
+        "departments": Department.objects.all(),
+        'is_admin': is_hospital_admin(request.user),
+        'is_depadmin': is_department_admin(request.user),
+        'is_staff': is_hospital_staff(request.user),
     }
     return render(request, 'dashboard/departments.html', context)
 

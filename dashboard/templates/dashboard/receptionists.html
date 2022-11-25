@@ -36,7 +36,17 @@
                     <tr>
                         <td>{{receptionist.username}}</td>
                         <td>{{receptionist.description}}</td>
-                        <td><i class="bi bi-pencil"></i> &nbsp;&nbsp;<i class="bi bi-trash text-danger"></i> </td>
+                        <td>
+                            {% if is_admin or is_depadmin %}
+                            <a href="{% url 'user-update' user.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'user-delete' user.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

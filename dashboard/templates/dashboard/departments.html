@@ -47,6 +47,7 @@
                         <td>{{department.date_created}}</td>
                         <td>{{department.created_by}}</td>
                         <td>
+                            {% if is_admin %}
                             <a href="{% url 'deparment-update' department.id %}"
                                 class="btn btn-outline-primary btn-sm mx-2 text-center">
                                 <i class="bi bi-pencil"></i>
@@ -54,7 +55,7 @@
                             &nbsp;&nbsp;
                             <a href="{% url 'department-delete' department.id %}"
                                 class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
-
+                            {% endif%}
                         </td>
                     </tr>
                     {% endfor %}

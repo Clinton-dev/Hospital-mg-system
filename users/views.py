@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin
+from dashboard.mixins import AdminMixin
 
 
 @unauthenticated_user
@@ -72,14 +73,14 @@ def user_profile(request):
     return render(request, 'registration/profile.html')
 
 
-class UsersUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UsersUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):
     model = User
     fields = ['username', 'email', 'last_name', 'first_name']
     success_url = reverse_lazy('home')
     success_message = 'Patient updated successfully!'
 
 
-class UserDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, DeleteView):
     model = User
     success_url = reverse_lazy('home')
     success_message = 'User deleted successfully!'

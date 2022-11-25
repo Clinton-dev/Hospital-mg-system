@@ -6,7 +6,9 @@ from django.views.generic import (
     DeleteView,
     UpdateView
 )
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from dashboard.mixins import AdminMixin
 from hospital.models import Department, File, Folder, DepartmentAdmin, Patient, Staff
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
@@ -47,7 +49,7 @@ def home(request):
 
 @ login_required(login_url='users/login_user')
 def departments(request):
-    print(request.user.hospital)
+    # print(request.user.hospital)
     context = {
         "departments": Department.objects.all(),
         'is_admin': is_hospital_admin(request.user),
@@ -82,7 +84,7 @@ class DepartmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
 
-class DepartmentsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class DepartmentsUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):
     model = Department
     fields = ['name', 'description']
     success_url = reverse_lazy('departments')
@@ -97,7 +99,7 @@ class DepartmentDetailView(LoginRequiredMixin, DetailView):
     model = Department
 
 
-class DepartmentsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DepartmentsDeleteView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, DeleteView):
     model = Department
     success_url = reverse_lazy('departments')
     success_message = 'Department deleted successfully!'
@@ -127,14 +129,14 @@ class DepartmentAdminsCreateView(LoginRequiredMixin, SuccessMessageMixin, Create
     success_message = 'Department created successfully!'
 
 
-class DepartmentAdminsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class DepartmentAdminsUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):
     model = DepartmentAdmin
     fields = "__all__"
     success_url = reverse_lazy('department-admins')
     success_message = 'Department updated successfully!'
 
 
-class DepartmentAdminsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DepartmentAdminsDeleteView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, DeleteView):
     model = DepartmentAdmin
     success_url = reverse_lazy('department-admins')
     success_message = 'Department admin deleted successfully!'
@@ -284,14 +286,14 @@ class PatientsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = 'Patient created successfully!'
 
 
-class PatientsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class PatientsUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):
     model = Patient
     fields = "__all__"
     success_url = reverse_lazy('patients')
     success_message = 'Patient updated successfully!'
 
 
-class PatientsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class PatientsDeleteView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, DeleteView):
     model = Patient
     success_url = reverse_lazy('patients')
     success_message = 'Patient deleted successfully!'

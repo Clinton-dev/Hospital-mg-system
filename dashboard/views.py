@@ -272,9 +272,13 @@ class DoctorsCreateView(CreateView):
 
 
 class ReceptionistsListView(ListView):
-    queryset = User.objects.filter(staff__role__contains="receptionist")
     context_object_name = 'receptionists'
     template_name = 'dashboard/receptionists.html'
+
+    def get_queryset(self):
+        c1 = Q(staff__role__contains="receptionist")
+        c2 = Q(staff__hospital__exact=self.request.user.staff.hospital.id)
+        return User.objects.filter(c1 & c2)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ReceptionistsListView,
@@ -305,22 +309,21 @@ class ReceptionistsCreateView(CreateView):
             randpass = User.objects.make_random_password()
             user.set_password(randpass)
             user.save()
-            group = Group.objects.get(name='staff')
-            user.groups.add(group)
+            # group = Group.objects.get(name='staff')
+            # user.groups.add(group)
             username = form.cleaned_data.get('username')
             staff_prof = Staff.objects.create(
-                user=user, hospital=self.request.user.hospital, role='receptionist')
+                user=user, hospital=self.request.user.staff.hospital, role='receptionist')
             staff_prof.save()
-            # send email with login details
             send_mail(
-                subject='User Login credentials',
-                message=f'Use the following credentials to login username: {username}  password: {randpass}.',
+                subject='Receptionist Login credentials',
+                message=f'Use the following credentials to login username: {username}  password: {randpass} ',
                 recipient_list=[user.email],
                 from_email=None,
                 fail_silently=False,
             )
             messages.success(
-                request, f'User with username: {username} was created with following password: {randpass}')
+                request, f'Receptionist with username: {username} was created!')
             return redirect('receptionists')
 
         return render(request, self.template_name, {'form': form})

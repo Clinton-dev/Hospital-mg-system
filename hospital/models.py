@@ -6,11 +6,12 @@ from PIL import Image
 
 class Hospital(models.Model):
     name = models.CharField(null=False, max_length=150)
-    logo = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    email = models.EmailField(null=False, max_length=200)
-    date_established = models.DateField()
-    phone = models.CharField(null=False, max_length=150)
-    admin = models.OneToOneField(User, on_delete=models.DO_NOTHING)
+    date_from = models.DateField(null=True)
+    date_due = models.DateField(null=True)
+    admin_email = models.EmailField(null=False, max_length=200)
+    admin_phone = models.CharField(null=False, max_length=150)
+    admin_name = models.CharField(max_length=250, null=True)
+    region = models.CharField(null=True, max_length=250)
 
     def __str__(self):
         return f'{self.name} Hospital'
@@ -43,7 +44,7 @@ class Staff(models.Model):
     role = models.TextField(max_length=70, default=True)
     image = models.ImageField(default='default.svg', upload_to='profile_pics')
     department = models.ForeignKey(
-        Department, null=True, on_delete=models.DO_NOTHING)
+        Department, null=True, on_delete=models.DO_NOTHING, blank=True)
     date_created = models.DateTimeField(null=True, default=timezone.now)
 
     def __str__(self):

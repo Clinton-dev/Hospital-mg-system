@@ -9,7 +9,7 @@ from django.views.generic import (
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from dashboard.mixins import AdminMixin
-from hospital.models import Department, File, Folder, DepartmentAdmin, Patient, Staff
+from hospital.models import Department, File, Folder, DepartmentAdmin, Hospital, Patient, Staff
 from django.contrib.auth.mixins import LoginRequiredMixin  # Restrict user access
 from django.contrib.messages.views import SuccessMessageMixin  # display flash message
 from django.urls import reverse_lazy
@@ -45,6 +45,14 @@ def home(request):
         'users': users
     }
     return render(request, 'dashboard/home.html', context)
+
+
+# Hospital
+
+class HospitalListView(ListView):
+    model = Hospital
+    context_object_name = 'hospitals'
+    template_name = 'dashboard/owner.html'
 
 
 @ login_required(login_url='users/login_user')
@@ -83,7 +91,7 @@ class DepartmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = 'Department created successfully!'
 
     def form_valid(self, form):
-        form.instance.hospital = self.request.user.hospital
+        form.instance.hospital = self.request.user.staff.hospital
         return super().form_valid(form)
 
 
@@ -178,7 +186,6 @@ class DoctorsCreateView(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
-        print(request)
         if form.is_valid():
             user = form.save()
             # create random password

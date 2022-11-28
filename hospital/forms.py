@@ -11,10 +11,11 @@ class DateInput(forms.DateInput):
 class HospitalRegistration(forms.ModelForm):
     class Meta:
         model = Hospital
-        fields = ['name', 'email', 'phone',
-                  'logo', 'date_established']
+        fields = ['name', 'admin_name', 'region', 'admin_email', 'admin_phone',
+                  'date_from', 'date_due']
         widgets = {
-            "date_established": DateInput(),
+            "date_from": DateInput(),
+            "date_due": DateInput(),
         }
 
     @property

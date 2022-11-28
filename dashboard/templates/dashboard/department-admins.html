@@ -5,9 +5,9 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Department Admins </h1>
-    {% if is_admin %}
     <a href="{% url 'departmentadmins-create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
             class="bi bi-plus-circle-fill"></i> Add a Department Admin</a>
+    {% if is_admin %}
     {% endif %}
 </div>
 
@@ -40,10 +40,13 @@
                 <tbody>
                     {% for departmentadmin in departmentadmins %}
                     <tr>
-                        <td>{{departmentadmin.depadmin}}</td>
-                        <td>{{departmentadmin.department}}</td>
-                        <td>contact infor</td>
-                        <td>date created</td>
+                        <td style="display:flex; column-gap: 20px; align-items: center;"><img
+                                class="image-fluid avatar-img" src="{{departmentadmin.staff.image.url}}"
+                                alt="{{department.staff.username}} profile pic" />
+                            {{departmentadmin.first_name}} {{departmentadmin.last_name}}</td>
+                        <td>{{departmentadmin.staff.department.name}}</td>
+                        <td>{{departmentadmin.email}}</td>
+                        <td>{{departmentadmin.staff.date_created}}</td>
                         <td>
                             <a href="{% url 'departmentadmins-update' departmentadmin.id %}"
                                 class="btn btn-outline-primary btn-sm mx-2 text-center">

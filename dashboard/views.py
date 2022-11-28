@@ -57,7 +57,6 @@ class HospitalListView(ListView):
 
 @ login_required(login_url='users/login_user')
 def departments(request):
-    # print(request.user.hospital)
     query_set = Department.objects.all().filter(
         hospital__id__exact=request.user.staff.hospital.id)
     print(query_set)
@@ -90,9 +89,21 @@ class DepartmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('departments')
     success_message = 'Department created successfully!'
 
-    def form_valid(self, form):
-        form.instance.hospital = self.request.user.staff.hospital
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            department = form.save(commit=False)
+            department.hospital = request.user.staff.hospital
+            department.created_by = self.request.user.username
+            department.save()
+            name = form.cleaned_data.get('name')
+            messages.success(
+                request, f'Department: {name} was created!')
+            return redirect('departments')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class DepartmentsUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):
@@ -120,10 +131,14 @@ class DepartmentsDeleteView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin,
 
 
 class DepartmentAdminListView(ListView):
-    model = DepartmentAdmin
     template_name = 'dashboard/department-admins.html'
     context_object_name = 'departmentadmins'
     ordering = ['-id']
+
+    def get_queryset(self):
+        c1 = Q(staff__role__contains="deparment-admin")
+        c2 = Q(staff__hospital__exact=self.request.user.staff.hospital.id)
+        return User.objects.filter(c1 & c2)
 
     def get_context_data(self, *args, **kwargs):
         context = super(DepartmentAdminListView,
@@ -134,10 +149,43 @@ class DepartmentAdminListView(ListView):
 
 
 class DepartmentAdminsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    model = DepartmentAdmin
-    fields = "__all__"
-    success_url = reverse_lazy('department-admins')
-    success_message = 'Department created successfully!'
+    model = User
+    fields = ['username', 'email', 'last_name', 'first_name']
+    template_name = 'hospital/departmentadmin_form.html'
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            user = form.save()
+            randpass = User.objects.make_random_password()
+            user.set_password(randpass)
+            user.save()
+            # associate user with staff group
+
+            # group = Group.objects.get(name='department-admin')
+            # user.groups.add(group)
+            username = form.cleaned_data.get('username')
+
+            # link staff model link wth user and hospital
+            staff_prof = Staff.objects.create(
+                user=user, hospital=self.request.user.staff.hospital, role='deparment-admin')
+            staff_prof.save()
+            # send email with login details
+            send_mail(
+                subject='Department admin Login credentials',
+                message=f'Use the following credentials to login username: {username}  password: {randpass}',
+                recipient_list=[user.email],
+                from_email=None,
+                fail_silently=False,
+            )
+            # redirect to doctors list page
+            messages.success(
+                request, f'Department admin with username: {username} was created!')
+            return redirect('department-admins')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class DepartmentAdminsUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):
@@ -156,11 +204,15 @@ class DepartmentAdminsDeleteView(LoginRequiredMixin, SuccessMessageMixin, AdminM
 
 
 class DoctorsListView(ListView):
-    # query list of all doctors based on users hospital id
-    queryset = User.objects.filter(staff__role__contains="doctor")
     template_name = 'dashboard/doctors.html'
     context_object_name = 'doctors'
     ordering = ['-id']
+
+    def get_queryset(self):
+        """ Query list of all doctors based on users hospital id"""
+        c1 = Q(staff__role__contains="doctor")
+        c2 = Q(staff__hospital__exact=self.request.user.staff.hospital.id)
+        return User.objects.filter(c1 & c2)
 
     def get_context_data(self, *args, **kwargs):
         context = super(DoctorsListView,

@@ -23,8 +23,9 @@ class Department(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     # department_admin = models.ForeignKey(
     #     User, on_delete=models.DO_NOTHING, null=True)
-    created_by = models.ForeignKey(
-        User, on_delete=models.DO_NOTHING, null=True)
+    # created_by = models.ForeignKey(
+    #     User, on_delete=models.DO_NOTHING, null=True)
+    created_by = models.CharField(null=True, max_length=150)
 
     def __str__(self):
         return f'{self.name} Department'

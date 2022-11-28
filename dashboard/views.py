@@ -59,7 +59,6 @@ class HospitalListView(ListView):
 def departments(request):
     query_set = Department.objects.all().filter(
         hospital__id__exact=request.user.staff.hospital.id)
-    print(query_set)
     context = {
         "departments": query_set,
         'is_admin': is_hospital_admin(request.user),
@@ -332,9 +331,13 @@ class ReceptionistsCreateView(CreateView):
 # Patients section
 
 class PatientsListView(ListView):
-    model = Patient
     context_object_name = 'patients'
     template_name = 'dashboard/patients.html'
+
+    def get_queryset(self):
+        q = Patient.objects.filter(
+            hospital__id__exact=self.request.user.staff.hospital.id)
+        return q
 
     def get_context_data(self, *args, **kwargs):
         context = super(PatientsListView,
@@ -346,9 +349,24 @@ class PatientsListView(ListView):
 
 class PatientsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Patient
-    fields = "__all__"
+    fields = ['first_name', 'last_name', 'national_id', 'date_created']
     success_url = reverse_lazy('patients')
     success_message = 'Patient created successfully!'
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            patient = form.save(commit=False)
+            patient.hospital = request.user.staff.hospital
+            patient.save()
+            name = form.cleaned_data.get('first_name')
+            messages.success(
+                request, f'Patient: {name} was created!')
+            return redirect('patients')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class PatientsUpdateView(LoginRequiredMixin, SuccessMessageMixin, AdminMixin, UpdateView):

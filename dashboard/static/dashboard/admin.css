@@ -7267,6 +7267,7 @@ button.bg-dark:focus {
 
 .d-flex {
     display: flex !important;
+    gap: 20px;
 }
 
 .d-inline-flex {

@@ -21,6 +21,10 @@ from django.contrib.auth.models import Group
 from django.core.mail import send_mail  # send mail
 
 
+def settings(request):
+    return render(request, 'dashboard/settings.html')
+
+
 def search_patients(request):
     if request.method == "GET":
         query = request.GET.get('query')

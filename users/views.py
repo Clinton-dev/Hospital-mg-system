@@ -66,7 +66,7 @@ def logout_view(request):
 
 
 def change_password(request):
-    return render(request, 'registration/forgot-password.html')
+    return render(request, 'registration/password_reset.html')
 
 
 def user_profile(request):

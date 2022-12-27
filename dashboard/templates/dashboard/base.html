@@ -41,21 +41,15 @@
                 </div>
                 <div class="sidebar-brand-text mx-3">Viyli.</div>
             </a>
+            <!-- show different items based on user roles -->
 
+            {% if user.staff.role == 'admin' %}
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home'%}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-
-            <!-- Nav Item- Department -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'hospital-dash'%}">
-                    <i class="bi bi-hospital"></i>
-                    <span>Hospital</span></a>
-            </li>
-
             <!-- Nav Item- Department -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'departments'%}">
@@ -105,6 +99,21 @@
                     <i class="bi bi-file-earmark-bar-graph"></i>
                     <span>File Groups</span></a>
             </li>
+            {% elif user.staff.role == 'owner'%}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'owner'%}">
+                    <i class="bi bi-folder2"></i>
+                    <span>Hospitals</span></a>
+            </li>
+            {% else %}
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home'%}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            {% endif %}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -178,8 +187,13 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome Admin
-                                    {{request.user.username}}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome
+                                    {% if user.staff.role == 'admin' %}
+                                    Admin
+                                    {% else %}
+                                    {{request.user.username}}
+                                    {% endif %}
+                                </span>
                                 <img class="img-profile rounded-circle" src="{{user.staff.image.url}}"
                                     alt="profile pic">
                             </a>

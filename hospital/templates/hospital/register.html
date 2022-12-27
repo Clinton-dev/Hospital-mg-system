@@ -9,7 +9,7 @@
 
 <form class="border p-5 bg-white" method="POST" enctype="multipart/form-data">
     {% csrf_token%}
-    <p class="text-center text-secondary">Enter your hospital information</p>
+    <p class="text-center text-secondary">Create new hospital instance</p>
     <fieldset class="form-group">
         {{form|crispy}}
     </fieldset>

@@ -12100,19 +12100,19 @@ a:focus {
 }
 
 .bg-login-image {
-    background: url("/static/dashboard/images/doc.jpg");
+    background: url("/static/dashboard/images/login-bg.jpeg");
     background-position: center;
     background-size: cover;
 }
 
 .bg-register-image {
-    background: url("/static/dashboard/images/worker.jpg");
+    background: url("/static/dashboard/images/login-bg.jpeg");
     background-position: center;
     background-size: cover;
 }
 
 .bg-password-image {
-    background: url("/static/dashboard/images/doc1.jpg");
+    background: url("/static/dashboard/images/login-bg.jpeg");
     background-position: center;
     background-size: cover;
 }

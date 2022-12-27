@@ -3,18 +3,16 @@
 
 
 {% block content %}
-<h1 class="mt-5 text-center">
-    HOSPITAL SYSTEM CONFIGURATION
-</h1>
+
 
 <form class="border p-5 bg-white" method="POST" enctype="multipart/form-data">
     {% csrf_token%}
-    <p class="text-center text-secondary">Create new hospital instance</p>
-    <fieldset class="form-group">
-        {{form|crispy}}
-    </fieldset>
-    <div class="form-group mt-4">
-        <button class="btn btn-info text-white" type="submit">Submit</button>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <img src="/static/dashboard/images/Viyli.svg">
+        <h4 >Create new hospital instance</h4>
     </div>
+    <fieldset class="form-group">
+        {% crispy form %}
+    </fieldset>
 </form>
 {% endblock %}

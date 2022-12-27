@@ -102,7 +102,7 @@
             {% elif user.staff.role == 'owner'%}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'owner'%}">
-                    <i class="bi bi-folder2"></i>
+                    <img src="/static/dashboard/images/hospital.svg" alt="hospital icon">
                     <span>Hospitals</span></a>
             </li>
             {% else %}

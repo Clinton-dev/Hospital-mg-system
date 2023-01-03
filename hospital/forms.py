@@ -41,6 +41,7 @@ class HospitalRegistration(forms.ModelForm):
                 Column('date_due', css_class='form-group col-md-6'),
                 css_class='form-row'
             ),
-            Submit('submit', 'Submit', css_class='btn btn-primary')
+            Submit('submit', 'Create new hospital Instance',
+                   css_class='btn btn-primary')
         )
         return helper

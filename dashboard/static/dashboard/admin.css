@@ -12718,3 +12718,10 @@ body.sidebar-toggled footer.sticky-footer {
     color: var(--color-dark-light);
     margin-bottom: 0.5rem;
 }
+
+.background-settings {
+    background-color: rgba(213, 230, 251, 255);
+    color: #000;
+    padding: 1rem;
+    height: 100%;
+}

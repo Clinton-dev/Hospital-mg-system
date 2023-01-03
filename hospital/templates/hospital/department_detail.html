@@ -1,0 +1,17 @@
+{% extends 'dashboard/base.html' %}
+
+
+{% block content %}
+department detail
+<div class="card mb-3">
+    <div class="d-flex text-muted border-bottom py-2">
+        <!-- Department Header -->
+        <h3 class="flex-center">{{object.name}} department details</h3>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"><strong>Department name:</strong> {{object.name}}</h5>
+        <h5 class="card-title"><strong>Date created:</strong> {{object.date_created}}</h5>
+        <h5 class="card-title"><strong>Created by:</strong>@{{object.created_by}}</h5>
+    </div>
+</div>
+{% endblock content%}

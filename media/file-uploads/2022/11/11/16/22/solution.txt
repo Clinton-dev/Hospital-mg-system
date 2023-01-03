@@ -1,0 +1,39 @@
+﻿Solved the following  challenge using python and wanted to share the steps that I took.
+Challenge : Write a function that takes a string and returns and returns the deciphered string so that you can show the commander that the minions are talking about “Lance & Janice” instead of doing their jobs.
+
+example decipherMultipleWords("wrw blf hvv ozhg mrtsg'h vkrhlwv?")
+would produce,  did you see last night's episode?
+decipherMultipleWords(
+"Yvzs! I xzm'g yvorvev Lzmxv olhg srh qly zg gsv xlolmb!!"))
+ =>Yeah! I can't believe Lance lost his job at the colony!!
+
+The rules are that only lowercase letters are encrypted or de-crypted uppercase, “”, ! are ignored
+
+Steps: 
+1. I first broke the problem to the most simplest form, that’s how do I loop over individual letters of a single word. This I did using a simple for loop and replacing the individual character with the new character on each iteration and finally joined the characters together after the loop ends.
+def decipherOneWord(text):
+encrypt = 'abcdefghijklmnopqrstuvwxyz'
+word = [letter for letter in text]
+
+for index, character in enumerate(word):
+character_index = encrypt.find(character)
+decrypt_index = 25 - character_index
+if character.islower():
+word[index] = encrypt[decrypt_index]
+
+return ''.join(word)
+
+2. The next step was to then to split the original string when a space occurred and store it in an array. I then easily traversed the array with a for loop and called the method I created on the above step on every loop to handle the individual words.
+
+def decipherMultipleWords(text):
+words = text.split()
+for index, word in enumerate(words):
+words[index] = decipherOneWord(word)
+
+return ' '.join(words)
+
+3. To handle the case of only encrypting or decrypting lowercase letters I used the islower()
+which returns true if character is lowercase.
+if character.islower():s
+word[index] = encrypt[decrypt_index]
+

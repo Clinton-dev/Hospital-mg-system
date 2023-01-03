@@ -1,0 +1,70 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Files</h1>
+    {% if is_admin or is_depadmin %}
+    <a href="{% url 'files-create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
+            class="bi bi-plus-circle-fill"></i> Add a file</a>
+    {% endif %}
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List of all files</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>File</th>
+                        <th>Department</th>
+                        <th>Created By</th>
+                        <th>Date created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>File</th>
+                        <th>Department</th>
+                        <th>Created By</th>
+                        <th>Date created</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for file in files %}
+                    <tr>
+                        <td>{{file.name}}</td>
+                        <td>{{file.file}}</td>
+                        <td>{{file.folder.department.name}}</td>
+                        <td>{{file.admin.username}}</td>
+                        <td>{{file.date_posted}}</td>
+                        <td>
+                            <a href="{% url 'file-update' file.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'file-delete' file.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+                            <a href="{{file.file.url}}" class="btn btn-outline-secondary btn-sm mx-2 text-center"
+                                download>
+                                <i class="bi bi-download"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

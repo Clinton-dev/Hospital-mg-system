@@ -1,0 +1,46 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+<!-- settings -->
+<h3 class="mb-4">Settings</h3>
+
+<div>
+    <h5>Permissions</h5>
+    <p>1. Set who can Create patients and upload files</p>
+    <div class="d-flex border-bottom">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="dep-admin">
+            <label class="form-check-label" for="dep-admin">
+                Department Admins
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="receptionist">
+            <label class="form-check-label" for="receptionist">
+                receptionist
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="doctor">
+            <label class="form-check-label" for="doctor">
+                Doctors
+            </label>
+        </div>
+    </div>
+
+</div>
+
+<p class="mt-2 border-top">2. Can department admins can create doctors and receptionists</p>
+<div class="form-check border-bottom py-3">
+    <input class="form-check-input" type="checkbox" value="" id="AdminCreateDocAndReceptionist">
+    <label class="form-check-label" for="AdminCreateDocAndReceptionist">
+        Yes
+    </label>
+</div>
+
+<!-- Page footer -->
+<div class="d-sm-flex align-items-center justify-content-between mt-4">
+    <div></div>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Save</a>
+</div>
+{% endblock content %}

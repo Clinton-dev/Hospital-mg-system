@@ -1,0 +1,67 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Department Admins </h1>
+    <a href="{% url 'departmentadmins-create'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
+            class="bi bi-plus-circle-fill"></i> Add a Department Admin</a>
+    {% if is_admin %}
+    {% endif %}
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List of all department admins</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department Name</th>
+                        <th>Contact Info</th>
+                        <th>Date Created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department Name</th>
+                        <th>Contact Info</th>
+                        <th>Date Created</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for departmentadmin in departmentadmins %}
+                    <tr>
+                        <td style="display:flex; column-gap: 20px; align-items: center;"><img
+                                class="image-fluid avatar-img" src="{{departmentadmin.staff.image.url}}"
+                                alt="{{department.staff.username}} profile pic" />
+                            {{departmentadmin.first_name}} {{departmentadmin.last_name}}</td>
+                        <td>{{departmentadmin.staff.department.name}}</td>
+                        <td>{{departmentadmin.email}}</td>
+                        <td>{{departmentadmin.staff.date_created}}</td>
+                        <td>
+                            <a href="{% url 'departmentadmins-update' departmentadmin.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'departmentadmins-delete' departmentadmin.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Departments</h1>
+    <a href="{% url 'create-department'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
+            class="bi bi-plus-circle-fill"></i> Add a Department</a>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List of all departments</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Department name</th>
+                        <th>Department head</th>
+                        <th>Date created</th>
+                        <th>Created by</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Department name</th>
+                        <th>Department head</th>
+                        <th>Date created</th>
+                        <th>Created by</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for department in departments %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'department-detail' department.id%}">
+                                {{department.name}}
+                            </a>
+                        </td>
+                        <td>{{department.description}}</td>
+                        <td>{{department.date_created}}</td>
+                        <td>{{department.created_by}}</td>
+                        <td>
+                            {% if is_admin %}
+                            <a href="{% url 'deparment-update' department.id %}"
+                                class="btn btn-outline-primary btn-sm mx-2 text-center">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="{% url 'department-delete' department.id %}"
+                                class="btn btn-outline-danger btn-sm mx-2 text-center"><i class="bi bi-trash"></i></a>
+                            {% endif%}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
